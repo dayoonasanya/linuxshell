@@ -21,6 +21,7 @@ int _putchar(int c);
 int puts(const char *);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
+char *_strdup(const char *s);
 char *_getenv(const char *name);
 
 

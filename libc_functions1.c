@@ -74,3 +74,36 @@ char *_getenv(const char *name)
 
 	return (NULL);
 }
+
+
+/**
+ * _strdup: dublicates a string
+ * @s: string to duplicate
+ * Return: pointer to the duplicated string
+ * or NULL if it fails to duplicate
+ */
+char *_strdup(const char *s)
+{
+	int i = 0;
+	char *duplicate = NULL;
+
+	if (!s)
+		return (NULL);
+
+	duplicate = (char *)malloc(sizeof(char) * _strlen(s) + 1);
+
+	if (!duplicate)
+		return (NULL);
+
+	while (s[i])
+	{
+		duplicate[i] = s[i];
+		i++;
+	}
+
+	duplicate[i] = '\0';
+
+
+	return (duplicate);
+}
+

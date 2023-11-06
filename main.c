@@ -20,7 +20,6 @@
 int main(int ac, char **av)
 {
 	(void) ac;
-	printf("=>%s", _getenv("PWD"));
 	start_shell((const char **)av);
 
 	return (0);

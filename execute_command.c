@@ -96,9 +96,9 @@ void execute_command_args_with_path(char *command, const char **argv)
 {
 	char *token = NULL;
 	int i = 0;
-	char *command_dup = strdup(command);
+	char *command_dup = _strdup(command);
 	char **av = (char **) malloc(sizeof(char *) *
-			find_number_of_strings(strdup(command)) + 1);
+			find_number_of_strings(_strdup(command)) + 1);
 
 	token = strtok(command_dup, " \t");
 
@@ -106,7 +106,7 @@ void execute_command_args_with_path(char *command, const char **argv)
 	{
 		while (token)
 		{
-			av[i] = strdup(token);
+			av[i] = _strdup(token);
 			token = strtok(NULL, " \t");
 			i++;
 		}
