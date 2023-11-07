@@ -54,8 +54,6 @@ void start_shell(const char **argv)
 		}
 
 		command_options(command, argv);
-		free(command);
-		command = NULL;
 	}
 
 

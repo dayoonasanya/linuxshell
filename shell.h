@@ -36,4 +36,6 @@ int find_number_of_strings(char *command);
 void execute(char **av, const char**argv);
 void execute_command_no_args_with_path(char *command, const char **argv);
 void execute_command_args_with_path(char *command, const char **argv);
+void find_path(char *command, const char **argv);
+
 #endif

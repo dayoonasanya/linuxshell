@@ -21,6 +21,8 @@ void command_options(char *command, const char **argv)
 			execute_command_args_with_path(command, argv);
 		}
 	}
+	else
+		find_path(command, argv);
 }
 
 /**

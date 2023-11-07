@@ -17,6 +17,7 @@ void execute(char **av, const char **argv)
 
 	if (execute_process == -1)
 	{
+		printf("here\n");
 		perror(argv[0]);
 	}
 	else if (execute_process == 0)
@@ -24,6 +25,7 @@ void execute(char **av, const char **argv)
 		if (execve(*av, av, environ) == -1)
 		{
 			perror(argv[0]);
+			exit(1);
 		}
 	}
 	else if (execute_process > 0)
