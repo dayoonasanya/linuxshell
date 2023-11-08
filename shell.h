@@ -33,7 +33,12 @@ void print_prompt(void);
 void trim_start(char **string);
 void command_options(char *command, const char **argv);
 int find_number_of_strings(char *command);
-void execute(char **av, const char**argv);
+void execute(char **av, const char **argv);
 void execute_command_no_args_with_path(char *command, const char **argv);
 void execute_command_args_with_path(char *command, const char **argv);
+
+
+/** exit the command **/
+void exit_shell(char **command, char *line);
+void free_buf(char **buffer);
 #endif
