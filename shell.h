@@ -38,7 +38,6 @@ void execute_command_no_args_with_path(char *command, const char **argv);
 void execute_command_args_with_path(char *command, const char **argv);
 
 
-/** exit the command **/
-void exit_shell(char **command, char *line);
-void free_buf(char **buffer);
+/** handle comment **/
+void handle_comment(char *input);
 #endif
