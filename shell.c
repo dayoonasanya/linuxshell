@@ -11,8 +11,6 @@ void signal_interaption(int signo)
 {
 	if (signo == SIGINT)
 	{
-		_putchar('\n');
-		exit(127);
 	}
 }
 
@@ -54,6 +52,8 @@ void start_shell(const char **argv)
 		}
 
 		command_options(command, argv);
+		free(command);
+		command = NULL;
 	}
 
 

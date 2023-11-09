@@ -12,6 +12,7 @@ extern char **environ;
 #include <sys/wait.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdarg.h>
 
 /**libc made functions*/
 size_t _strcspn(const char *s, const char *reject);
@@ -23,6 +24,8 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strdup(const char *s);
 char *_getenv(const char *name);
+char *_strrev(char *s);
+int _snprintf(char *str, size_t size, const char *format, ...);
 
 
 
@@ -34,8 +37,14 @@ void trim_start(char **string);
 void command_options(char *command, const char **argv);
 int find_number_of_strings(char *command);
 void execute(char **av, const char**argv);
-void execute_command_no_args_with_path(char *command, const char **argv);
 void execute_command_args_with_path(char *command, const char **argv);
+void execute_command_no_args_with_path(char *command, const char **argv);
 void find_path(char *command, const char **argv);
+int  builtin_command(char *command, const char **argv);
+
+/** handler functions */
+int handle_string(va_list list, size_t *size, char *str);
+int handle_char(va_list list, size_t *size, char *str);
+int handle_normal_char(const char *format, size_t *size, char *str);
 
 #endif
