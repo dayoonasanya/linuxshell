@@ -24,7 +24,10 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strdup(const char *s);
 char *_getenv(const char *name);
 
-
+/*libc made functions2*/
+char *_strcat(char *dest, const char *src);
+char *_strncat(char *dest, const char *src, size_t n);
+char *_strcpy(char *dest, const char *src);
 
 
 /** defined functions **/
