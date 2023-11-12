@@ -29,6 +29,9 @@ char *_strcat(char *dest, const char *src);
 char *_strncat(char *dest, const char *src, size_t n);
 char *_strcpy(char *dest, const char *src);
 
+/**stringtokens*/
+char *_strtok(char *line, char *delim);
+int _delim(char c, char *delim);
 
 /** defined functions **/
 void start_shell(const char **argv);
