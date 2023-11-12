@@ -34,17 +34,14 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strdup(const char *s);
 char *_getenv(const char *name);
-<<<<<<< HEAD
 
 /*libc made functions2*/
 char *_strcat(char *dest, const char *src);
 char *_strncat(char *dest, const char *src, size_t n);
 char *_strcpy(char *dest, const char *src);
-=======
 char *_strrev(char *s);
 int _snprintf(char *str, size_t size, const char *format, ...);
 int _atoi(const char *s);
->>>>>>> moca
 
 /**stringtokens*/
 char *_strtok(char *line, char *delim);
@@ -56,16 +53,11 @@ void print_prompt(void);
 void trim_start(char **string);
 void command_options(char *command, const char **argv, runtime_t *runtime);
 int find_number_of_strings(char *command);
-<<<<<<< HEAD
-void execute(char **av, const char **argv);
-void execute_command_no_args_with_path(char *command, const char **argv);
-void execute_command_args_with_path(char *command, const char **argv);
 
 
 /** handle comment **/
 void handle_comment(char *input);
-=======
-void execute(char **av, const char**argv, runtime_t *runtime);
+void execute(char *command, char **av, const char**argv, runtime_t *runtime);
 void execute_command_args_with_path(char *command, const char **argv, runtime_t *runtime);
 void execute_command_no_args_with_path(char *command, const char **argv, runtime_t *runtime);
 void find_path(char *command, const char **argv, runtime_t *runtime);
@@ -79,5 +71,4 @@ int handle_string(va_list list, size_t *size, char *str);
 int handle_char(va_list list, size_t *size, char *str);
 int handle_normal_char(const char *format, size_t *size, char *str);
 
->>>>>>> moca
 #endif

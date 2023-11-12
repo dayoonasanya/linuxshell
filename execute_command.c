@@ -8,7 +8,7 @@
  *
  * @argv: pointer to command line arguments
  */
-void execute(char *commamd, char **av, const char **argv, runtime_t *runtime)
+void execute(char *command, char **av, const char **argv, runtime_t *runtime)
 {
 
 	pid_t execute_process = fork();
@@ -23,7 +23,7 @@ void execute(char *commamd, char **av, const char **argv, runtime_t *runtime)
 	{
 		if (execve(*av, av, environ) == -1)
 		{
-			print_command_error(command, rgv, runtime);
+			print_command_error(command, argv, runtime);
 		}
 	}
 	else if (execute_process > 0)

@@ -1,11 +1,5 @@
 #include "shell.h"
 
-
-<<<<<<< HEAD
-char *_strcpy(char *dest, const char *src);
-char *_strcat(char *dest, const char *src);
-char *_strncat(char *dest, const char *src, size_t n);
-
 /**
  * _strcpy - copy string.
  * @dest: destination.
@@ -68,7 +62,8 @@ char *_strncat(char *dest, const char *src, size_t n)
 	dest[dest_len + i] = '\0';
 
 	return (dest);
-=======
+}
+
 char *_strrev(char *s)
 {
 	int length = _strlen(s);
@@ -85,6 +80,7 @@ char *_strrev(char *s)
 
 	return s;
 }
+
 
 int _atoi(const char *s)
 {
@@ -104,5 +100,4 @@ int _atoi(const char *s)
 
 
 	return (result);
->>>>>>> moca
 }
