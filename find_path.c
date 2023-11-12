@@ -1,17 +1,5 @@
 #include "shell.h"
 
-/**
- * command_not_found -  prints error message when command is not found
- * @command: pointer to command
- * @argv:  cmd line args pointer
- * Description: prints error to stderr
- */
-
-void command_not_found(char *command, const  char **argv)
-{
-	if (command)
-		perror(*argv);
-}
 
 /*
  * find_path - finds path  where command is located
@@ -22,7 +10,7 @@ void command_not_found(char *command, const  char **argv)
  * if not found it prints error specified in
  * command not found function
  */
-void find_path(char *command, const char **argv)
+void find_path(char *command, const char **argv, runtime_t *runtime)
 {
 	char *cmd_cpy = _strdup(command);
 	char *cmd = strtok(cmd_cpy, " ");
@@ -45,10 +33,10 @@ void find_path(char *command, const char **argv)
 			if (strchr(command, ' '))
 			{
 				snprintf(full_path, full_length, "%s/%s", path, command);
-				execute_command_args_with_path(full_path, argv);
+				execute_command_args_with_path(full_path, argv, runtime);
 			}
 			else
-				execute_command_no_args_with_path(full_path, argv);
+				execute_command_no_args_with_path(full_path, argv, runtime);
 
 			break;
 		}
@@ -58,7 +46,7 @@ void find_path(char *command, const char **argv)
 		full_path = NULL;
 	}
 	if (!found)
-		command_not_found(command, argv);
+		print_command_error(command, argv, runtime);
 
 	free(get_path);
 	free(cmd_cpy);

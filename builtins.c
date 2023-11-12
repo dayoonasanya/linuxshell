@@ -1,12 +1,18 @@
 #include "shell.h"
 
 
-void exit_shell(char *command, const char **argv)
+void exit_shell(char *command, const char **argv, runtime_t *runtime)
 {
 	int status = 0;
 
 	if (_strchr(command, ' ') == NULL)
 	{
+		free(command);
+	
+		if (runtime->error_msg)
+			free(runtime->error_msg);
+		free(runtime);
+
 		exit(0);
 	}
 	else
@@ -14,32 +20,60 @@ void exit_shell(char *command, const char **argv)
 		command = _strrev(command);
 		trim_start(&command);
 		command = _strrev(command);
-		status = atoi(command + 4);
+		status = _atoi(command + 4);
 
-		if (status == 0)
-		{
+                 if (contains_chars(command))
+		 {
 			char *msg = ": invalid exit status";
-			write(1, *argv, _strlen(*argv));
+			puts(*argv);
 			puts(msg);
-		}
-		else
-		{
-			exit(status);
+		 }
+		 else
+		 {
+			free(command);
+	
+			if (runtime->error_msg)
+				free(runtime->error_msg);
+			free(runtime);
+
+			exit (status);
 		}
 	}
 }
 
-int builtin_command(char *command, const char **argv)
+
+void print_env(void)
+{
+	int i;
+
+	while (environ[i])
+	{
+		puts(environ[i]);
+
+		i++;
+	}
+}
+
+int builtin_command(char *command, const char **argv, runtime_t *runtime)
 {
 	int status = 0;
 
 	if (_strncmp(command, "exit", 4) == 0)
 	{
 		status = 1;
-		exit_shell(command, argv);
+		exit_shell(command, argv, runtime);
+	}
+	else if (_strcmp(command, "env") == 0)
+	{
+		print_env();
+		status = 1;
 	}
 
 
+	if (runtime)
+	{
+
+	}
 
 	return (status);
 }

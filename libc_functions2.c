@@ -17,3 +17,23 @@ char *_strrev(char *s)
 
 	return s;
 }
+
+int _atoi(const char *s)
+{
+	int m = 0;
+	int result = 0;
+
+	if (*s)
+	{
+		trim_start((char **)&s);
+	}
+
+	while (s[m] >= '0' && s[m] <= '9')
+	{
+		result = (result * 10) + (s[m] - '0');
+		m++;
+	}
+
+
+	return (result);
+}

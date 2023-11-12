@@ -24,7 +24,7 @@ void signal_interaption(int signo)
  */
 
 
-void start_shell(const char **argv)
+void start_shell(const char **argv, runtime_t *runtime)
 {
 	char *command = NULL;
 	size_t n = 0;
@@ -51,7 +51,7 @@ void start_shell(const char **argv)
 			continue;
 		}
 
-		command_options(command, argv);
+		command_options(command, argv, runtime);
 		free(command);
 		command = NULL;
 	}

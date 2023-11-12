@@ -8,7 +8,7 @@
  *
  * @argv: pointer to command line arguments
  */
-void execute(char **av, const char **argv)
+void execute(char *commamd, char **av, const char **argv, runtime_t *runtime)
 {
 
 	pid_t execute_process = fork();
@@ -17,22 +17,20 @@ void execute(char **av, const char **argv)
 
 	if (execute_process == -1)
 	{
-		printf("here\n");
 		perror(argv[0]);
 	}
 	else if (execute_process == 0)
 	{
 		if (execve(*av, av, environ) == -1)
 		{
-			perror(argv[0]);
-			exit(1);
+			print_command_error(command, rgv, runtime);
 		}
 	}
 	else if (execute_process > 0)
 	{
 		wait(NULL);
 
-		while (av[i])
+		while (av[i]) /** free arguments vector **/
 		{
 			free(av[i]);
 			i++;
@@ -50,14 +48,14 @@ void execute(char **av, const char **argv)
  * Description: execute with no arguments
  */
 
-void execute_command_no_args_with_path(char *command, const char **argv)
+void execute_command_no_args_with_path(char *command, const char **argv, runtime_t *runtime)
 {
 	char **argumentVector = (char **)malloc(sizeof(char *) * 2);
 
 	argumentVector[0] = strdup(command);
 	argumentVector[1] = NULL;
 
-	execute(argumentVector, argv);
+	execute(command, argumentVector, argv, runtime);
 
 }
 
@@ -94,7 +92,7 @@ int  find_number_of_strings(char *command)
  * @command: command to execute
  * @argv: command line arguments
  */
-void execute_command_args_with_path(char *command, const char **argv)
+void execute_command_args_with_path(char *command, const char **argv, runtime_t *runtime)
 {
 	char *token = NULL;
 	int i = 0;
@@ -117,7 +115,7 @@ void execute_command_args_with_path(char *command, const char **argv)
 
 		free(command_dup);
 
-		execute(av, argv);
+		execute(command, av, argv, runtime);
 	}
 
 }

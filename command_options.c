@@ -8,11 +8,11 @@
  */
 
 
-void command_options(char *command, const char **argv)
+void command_options(char *command, const char **argv, runtime_t *runtime)
 {
 	int builtin = 0;
 
-	builtin = builtin_command(command, argv);
+	builtin = builtin_command(command, argv, runtime);
 
 	if (!builtin)
 	{
@@ -20,15 +20,15 @@ void command_options(char *command, const char **argv)
 		{
 			if (_strchr(command, ' ') == NULL)
 			{
-				execute_command_no_args_with_path(command, argv);
+				execute_command_no_args_with_path(command, argv, runtime);
 			}
 			else
 			{
-				execute_command_args_with_path(command, argv);
+				execute_command_args_with_path(command, argv, runtime);
 			}
 		}
 		else
-			find_path(command, argv);
+			find_path(command, argv, runtime);
 
 	}
 }
