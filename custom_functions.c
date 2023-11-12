@@ -27,3 +27,21 @@ void trim_start(char **s)
 		(*s)[i] = '\0';
 	}
 }
+
+
+int contains_chars(const char *s)
+{
+	int i = 0;
+
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+		{
+			return (1);
+		}
+
+		i++;
+	}
+
+	return (0);
+}

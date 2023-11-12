@@ -107,3 +107,41 @@ char *_strdup(const char *s)
 	return (duplicate);
 }
 
+int _snprintf(char *str, size_t size, const char *format, ...)
+{
+	int i = 0;
+	int full_length = 0;
+	va_list list;
+	va_start(list, format);
+
+	while (format[i])
+	{
+		if (!size)
+			break;
+
+		if (format[i] == '%')
+		{
+			i++;
+			switch(format[i])
+			{
+				case 's':
+					full_length += handle_string(list, &size, str);
+					break;
+
+				case 'c':
+					full_length += handle_char(list, &size, str);
+					break;
+			}	
+		}
+		else
+
+			full_length += handle_normal_char(&(format[i]), &size, str);
+
+		i++;		
+	}
+
+	va_end(list);
+	return (full_length);
+}
+
+
