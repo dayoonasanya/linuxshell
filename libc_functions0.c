@@ -110,8 +110,7 @@ int _puts(const char *s)
 	if (length)
 		write(STDOUT_FILENO, s, length);
 
-	_putchar('\n');
 
-	return (length + 1);
+	return (length);
 }
 

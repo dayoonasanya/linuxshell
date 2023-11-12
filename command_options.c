@@ -8,18 +8,28 @@
  */
 
 
-void command_options(char *command, const char **argv)
+void command_options(char *command, const char **argv, runtime_t *runtime)
 {
-	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+	int builtin = 0;
+
+	builtin = builtin_command(command, argv, runtime);
+
+	if (!builtin)
 	{
-		if (_strchr(command, ' ') == NULL)
+		if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
 		{
-			execute_command_no_args_with_path(command, argv);
+			if (_strchr(command, ' ') == NULL)
+			{
+				execute_command_no_args_with_path(command, argv, runtime);
+			}
+			else
+			{
+				execute_command_args_with_path(command, argv, runtime);
+			}
 		}
 		else
-		{
-			execute_command_args_with_path(command, argv);
-		}
+			find_path(command, argv, runtime);
+
 	}
 }
 
