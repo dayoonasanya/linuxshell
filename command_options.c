@@ -4,6 +4,7 @@
  * command_options - handles commamd options based on command
  * @command: pointer to the command string
  * @argv: pointer to command line args strings
+ * @runtime: pointer to runtime_t struct
  * Description: calls the required functions to perfom different options
  */
 

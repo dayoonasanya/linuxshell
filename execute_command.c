@@ -2,11 +2,13 @@
 
 /**
  * execute - executes given programme
+ * @command: command string
  * @av: argument vector which contains
  * the programme to execute and
  * its arguments if any
  *
  * @argv: pointer to command line arguments
+ * @runtime: pointerr to runtime_t struct
  */
 void execute(char *command, char **av, const char **argv, runtime_t *runtime)
 {
@@ -45,10 +47,12 @@ void execute(char *command, char **av, const char **argv, runtime_t *runtime)
  * execute_command_no_args_with_path - execute command given path
  * @command: pointer to a string comtaining the command
  * @argv: pointer to command line args strings
+ * @runtime: pointerr to runtime_t struct
  * Description: execute with no arguments
  */
 
-void execute_command_no_args_with_path(char *command, const char **argv, runtime_t *runtime)
+void execute_command_no_args_with_path(char *command, const char **argv,
+		runtime_t *runtime)
 {
 	char **argumentVector = (char **)malloc(sizeof(char *) * 2);
 
@@ -91,8 +95,10 @@ int  find_number_of_strings(char *command)
  * of a command with arguments
  * @command: command to execute
  * @argv: command line arguments
+ * @runtime: pointer to the runtime_t struct
  */
-void execute_command_args_with_path(char *command, const char **argv, runtime_t *runtime)
+void execute_command_args_with_path(char *command, const char **argv,
+		runtime_t *runtime)
 {
 	char *token = NULL;
 	int i = 0;

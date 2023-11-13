@@ -64,6 +64,11 @@ char *_strncat(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
+/**
+ * _strrev - reverse a string
+ * @s: string to reverse
+ * Return: pointer to the reversed string
+ */
 char *_strrev(char *s)
 {
 	int length = _strlen(s);
@@ -73,15 +78,19 @@ char *_strrev(char *s)
 	while (i < length / 2)
 	{
 		temp = s[i];
-		s[i] = s[length -1 -i];
+		s[i] = s[length - 1 - i];
 		s[length - 1 - i] = temp;
 		i++;
 	}
 
-	return s;
+	return (s);
 }
 
-
+/**
+ * _atoi - converts initial bytes of 's' to int
+ * @s: pointer to the string
+ * Return: int or 0 on error
+ */
 int _atoi(const char *s)
 {
 	int m = 0;

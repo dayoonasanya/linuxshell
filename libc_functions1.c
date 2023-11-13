@@ -52,6 +52,8 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 /**
  * _getenv - gets environment variable.
  * @name: the name of the variable
+ * Description: returns a pointer to the requested
+ * environment variable or NULL if not found
  * Return: pointer to the value of the variable
  */
 char *_getenv(const char *name)
@@ -77,8 +79,10 @@ char *_getenv(const char *name)
 
 
 /**
- * _strdup: dublicates a string
+ * _strdup -  dublicates a string
  * @s: string to duplicate
+ * Description: copies the contents of 's'
+ * to a new location and null terminates it.
  * Return: pointer to the duplicated string
  * or NULL if it fails to duplicate
  */
@@ -107,11 +111,22 @@ char *_strdup(const char *s)
 	return (duplicate);
 }
 
+/**
+ * _snprintf - prints formated text to a buffer
+ * @str: buffer to store formated text
+ * @size: sizeof bytes to write
+ * @format: format specifiers string
+ * @...:  variadic arguments
+ * Return: number of bytes that could have been
+ * written if the buffer was large enough
+ * or number  of all bytes written if all is written
+ */
 int _snprintf(char *str, size_t size, const char *format, ...)
 {
 	int i = 0;
 	int full_length = 0;
 	va_list list;
+
 	va_start(list, format);
 
 	while (format[i])
@@ -122,7 +137,7 @@ int _snprintf(char *str, size_t size, const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-			switch(format[i])
+			switch (format[i])
 			{
 				case 's':
 					full_length += handle_string(list, &size, str);
@@ -131,13 +146,13 @@ int _snprintf(char *str, size_t size, const char *format, ...)
 				case 'c':
 					full_length += handle_char(list, &size, str);
 					break;
-			}	
+			}
 		}
 		else
 
 			full_length += handle_normal_char(&(format[i]), &size, str);
 
-		i++;		
+		i++;
 	}
 
 	va_end(list);

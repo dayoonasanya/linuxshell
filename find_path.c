@@ -1,10 +1,11 @@
 #include "shell.h"
 
 
-/*
- * find_path - finds path  where command is located
+/**
+ * find_path- finds path  where command is located
  * @command: command string
  * @argv: command line args
+ * @runtime: pointer to the runtime_t struct for shell exec info
  * Description: if the path is found
  * it executes the command with its full path
  * if not found it prints error specified in
