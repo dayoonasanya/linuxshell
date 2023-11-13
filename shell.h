@@ -57,6 +57,7 @@ int find_number_of_strings(char *command);
 
 /** handle comment **/
 void handle_comment(char *input);
+void handle_newline(char *str);
 void execute(char *command, char **av, const char**argv, runtime_t *runtime);
 void execute_command_args_with_path(char *command, const char **argv, runtime_t *runtime);
 void execute_command_no_args_with_path(char *command, const char **argv, runtime_t *runtime);
