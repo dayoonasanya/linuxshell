@@ -1,10 +1,21 @@
 #include "shell.h"
 
+
+void free_resources(char *command, runtime_t *runtime)
+{
+	if (command)
+		free(command);
+
+	if (runtime->error_msg)
+		free(runtime->error_msg);
+
+	free(runtime);
+
+}
+
 /**
  * signal_interaption - checks for SIGINT signal
  * @signo: signal number
- * Description: if signal is SIGINT it exits with
- * status 127
  */
 
 void signal_interaption(int signo)
@@ -35,6 +46,19 @@ void start_shell(const char **argv, runtime_t *runtime)
 
 	while (1)
 	{
+		if (_strcmp("set", _getenv("Ctrl_C")) == 0)
+		{
+			setenv("Ctrl_C", "not_set", 1);
+			if (command)
+			{
+				free(command);
+				command = NULL;
+			}
+
+			continue;
+		}
+
+
 		print_prompt();
 
 
@@ -52,20 +76,15 @@ void start_shell(const char **argv, runtime_t *runtime)
 		if (*command == '\0')
 			continue;
 
-		if (_strcmp("set", _getenv("Ctrl_C")) == 0)
+		command_options(command, argv, runtime);
+
+		if (command)
 		{
 			free(command);
-			setenv("Ctrl_C", "not_set", 1);
-			continue;
+			command = NULL;
 		}
-
-
-		command_options(command, argv, runtime);
-		free(command);
-		command = NULL;
 	}
 
-	if (command)
-		free(command);
+	free_resources(command, runtime);
 
 }
