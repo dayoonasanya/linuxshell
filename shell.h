@@ -72,4 +72,10 @@ int handle_string(va_list list, size_t *size, char *str);
 int handle_char(va_list list, size_t *size, char *str);
 int handle_normal_char(const char *format, size_t *size, char *str);
 
+
+/**memory management */
+void _memset(char *str, int fill, int n);
+void _memcpy(char *dest, char *src, unsigned int bytes);
+void *_realloc(char *ptr, unsigned int old_size, unsigned int new_size);
+char **_reallocdp(char **ptr, unsigned int old_size, unsigned int new_size);
 #endif
