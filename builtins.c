@@ -22,11 +22,12 @@ void exit_shell(char *command, const char **argv, runtime_t *runtime)
 		command = _strrev(command);
 		status = _atoi(command + 4);
 
-                 if (contains_chars(command))
+                 if (contains_chars(command + 4))
 		 {
-			char *msg = ": invalid exit status";
-			puts(*argv);
-			puts(msg);
+			char error[256];
+			snprintf(error, sizeof(error), "%s: %d: exit: Illegal number:  %s", *argv, runtime->error_number, command + 4);
+			runtime->error_number++;
+			puts(error);
 		 }
 		 else
 		 {

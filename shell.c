@@ -47,15 +47,12 @@ void start_shell(const char **argv, runtime_t *runtime)
 		trim_start(&command);
 
 		if (*command == '\0')
-		{
 			continue;
-		}
 
 		command_options(command, argv, runtime);
 		free(command);
 		command = NULL;
 	}
-
 
 	if (command)
 		free(command);
