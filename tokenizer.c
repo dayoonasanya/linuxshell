@@ -1,7 +1,9 @@
 #include "shell.h"
+#include <string.h>
+#include <stdarg.h>
 
 char **tokenize(char *line);
-int delim_count(char *string, char delim);
+int delim_count(char *stri, char delim);
 
 /**
  * delim_count - delim count.
@@ -13,18 +15,18 @@ int delim_count(char *string, char delim);
 
 int delim_count(char *str, char delim)
 {
-	int j = 0, wrds = 0;
+	int w = 0, n = 0;
 
 	if (str)
 	{
-		for (; str[j] != '\0'; j++)
+		for (; str[n] != '\0'; n++)
 		{
-			if (str[j] == delim)
-			wrds++;
+			if (str[n] == delim)
+			w++;
 		}
-		wrds++;
+		w++;
 	}
-	return (wrds);
+	return (w);
 }
 
 /**
@@ -35,24 +37,24 @@ int delim_count(char *str, char delim)
  */
 char **tokenize(char *line)
 {
-	int bufsize = delim_count(line, ' '), i = 0;
-	char **tokens = NULL;
-	char *token = NULL;
+	int bufferz = delim_count(line, ' '), n = 0;
+	char *t2 = NULL;
+	char **t1 = NULL;
 
-	tokens = malloc(sizeof(char *) * (bufsize + 1));
-	if (!tokens)
+	t1 = malloc(sizeof(char *) * (bufferz + 1));
+	if (!t1)
 	{
-		free(tokens);
-		perror("Allocation Error");
+		free(t1);
+		perror("Failed to allocate");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(line, TOKEN_DELIM);
-	while (token != NULL)
+	t2 = _strtok(line, SEPARATE_STRING);
+	while (t2 != NULL)
 	{
-		tokens[i] = token;
-		i++;
-		token = strtok(NULL, TOKEN_DELIM);
+		t1[n] = t2;
+		n++;
+		t2 = _strtok(NULL, SEPARATE_STRING);
 	}
-	tokens[i] = NULL;
-	return (tokens);
+	t1[n] = NULL;
+	return (t1);
 }

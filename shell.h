@@ -15,7 +15,7 @@ extern char **environ;
 #include <stdarg.h>
 #include <errno.h>
 
-#define TOKEN_DELIM " \t\r\n\a"
+#define SEPARATE_STRING " \t\r\n\a"
 
 typedef struct
 {
