@@ -28,7 +28,11 @@ void trim_start(char **s)
 	}
 }
 
-
+/**
+ * contains_chars - checks if string has character(s)
+ * @s: string
+ * Return: 1 if true or 0
+ */
 int contains_chars(const char *s)
 {
 	int i = 0;

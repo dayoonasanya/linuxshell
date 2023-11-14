@@ -1,22 +1,35 @@
 #include "shell.h"
 
+
+void free_resources(char *command, runtime_t *runtime)
+{
+	if (command)
+		free(command);
+
+	if (runtime->error_msg)
+		free(runtime->error_msg);
+
+	free(runtime);
+
+}
+
 /**
  * signal_interaption - checks for SIGINT signal
  * @signo: signal number
- * Description: if signal is SIGINT it exits with
- * status 127
  */
 
 void signal_interaption(int signo)
 {
 	if (signo == SIGINT)
 	{
+		setenv("Ctrl_C", "set", 1);
 	}
 }
 
 /**
  * start_shell - starts the shell
  * @argv: pointer to command line args strings
+ * @runtime: pointer to  the struct for shell exec info
  * Description: prints the prompt.
  * Gets the user input from keyboard
  * Starts the required functions
@@ -33,7 +46,21 @@ void start_shell(const char **argv, runtime_t *runtime)
 
 	while (1)
 	{
+		if (_strcmp("set", _getenv("Ctrl_C")) == 0)
+		{
+			setenv("Ctrl_C", "not_set", 1);
+			if (command)
+			{
+				free(command);
+				command = NULL;
+			}
+
+			continue;
+		}
+
+
 		print_prompt();
+
 
 		if (getline(&command, &n, stdin) == -1)
 		{
@@ -50,11 +77,14 @@ void start_shell(const char **argv, runtime_t *runtime)
 			continue;
 
 		command_options(command, argv, runtime);
-		free(command);
-		command = NULL;
+
+		if (command)
+		{
+			free(command);
+			command = NULL;
+		}
 	}
 
-	if (command)
-		free(command);
+	free_resources(command, runtime);
 
 }
