@@ -15,6 +15,7 @@ extern char **environ;
 #include <stdarg.h>
 #include <errno.h>
 
+#define TOKEN_DELIM " \t\r\n\a"
 
 typedef struct
 {
@@ -46,6 +47,8 @@ int _atoi(const char *s);
 /**stringtokens*/
 char *_strtok(char *line, char *delim);
 int _delim(char c, char *delim);
+char **tokenize(char *line);
+int delim_count(char *string, char delim);
 
 /** defined functions **/
 void start_shell(const char **argv, runtime_t *runtime);
