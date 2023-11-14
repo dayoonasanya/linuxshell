@@ -120,43 +120,64 @@ char *_strdup(const char *s)
  * Return: number of bytes that could have been
  * written if the buffer was large enough
  * or number  of all bytes written if all is written
- */
-int _snprintf(char *str, size_t size, const char *format, ...)
+ i*/
+int _vsnprintf(char *str, size_t size, const char *format, va_list args)
 {
-	int i = 0;
-	int full_length = 0;
-	va_list list;
+        int written = 0;
+        int capacity = size - 1;
 
-	va_start(list, format);
+        while (*format && written < capacity)
+        {
+                if (*format == '%')
+                {
+                        ++format;
 
-	while (format[i])
-	{
-		if (!size)
-			break;
+                        switch (*format)
+                        {
+                                case 's':
+                                {
+                                char *arg = va_arg(args, char *);
 
-		if (format[i] == '%')
-		{
-			i++;
-			switch (format[i])
-			{
-				case 's':
-					full_length += handle_string(list, &size, str);
-					break;
-
-				case 'c':
-					full_length += handle_char(list, &size, str);
-					break;
-			}
-		}
-		else
-
-			full_length += handle_normal_char(&(format[i]), &size, str);
-
-		i++;
-	}
-
-	va_end(list);
-	return (full_length);
+                                        while (*arg && written < capacity)
+                                        {
+                                                *str++ = *arg++;
+                                                ++written;
+                                        }
+                                                break;
+                                }
+                                default:
+                                        *str++ = *format;
+                                        ++written;
+                                        break;
+                        }
+                }
+                else
+                {
+                        *str++ = *format;
+                        ++written;
+                }
+                ++format;
+        }
+        *str = '\0';
+        return (written);
 }
 
+/**
+ * _snprintf - Formats a string and writes it to a buffer.
+ * @buffer: The buffer to write the formatted string.
+ * @size: The size of the buffer.
+ * @format: The format string.
+ *
+ * Return: The number of characters written, excluding the null terminator.
+ */
+int _snprintf(char *buffer, size_t size, const char *format, ...)
+{
+        va_list args;
+        int result;
 
+        va_start(args, format);
+        result = _vsnprintf(buffer, size, format, args);
+        va_end(args);
+
+        return (result);
+}

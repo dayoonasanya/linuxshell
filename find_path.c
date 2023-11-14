@@ -27,13 +27,13 @@ void find_path(char *command, const char **argv, runtime_t *runtime)
 		full_length = (cmd_length + _strlen(path)) + 2;
 		full_path = malloc(sizeof(char) + full_length);
 
-		snprintf(full_path, full_length, "%s/%s", path, cmd);
+		_snprintf(full_path, full_length, "%s/%s", path, cmd);
 		if (access(full_path, F_OK) == 0)
 		{
 			found = 1;
 			if (strchr(command, ' '))
 			{
-				snprintf(full_path, full_length, "%s/%s", path, command);
+				_snprintf(full_path, full_length, "%s/%s", path, command);
 				execute_command_args_with_path(full_path, argv, runtime);
 			}
 			else

@@ -1,23 +1,9 @@
 #include "shell.h"
 
-
-void free_resources(char *command, runtime_t *runtime)
-{
-	if (command)
-		free(command);
-
-	if (runtime->error_msg)
-		free(runtime->error_msg);
-
-	free(runtime);
-
-}
-
 /**
  * signal_interaption - checks for SIGINT signal
  * @signo: signal number
  */
-
 void signal_interaption(int signo)
 {
 	if (signo == SIGINT)
@@ -47,20 +33,15 @@ void start_shell(const char **argv, runtime_t *runtime)
 	while (1)
 	{
 		if (_strcmp("set", _getenv("Ctrl_C")) == 0)
-		{
-			setenv("Ctrl_C", "not_set", 1);
+		{	setenv("Ctrl_C", "not_set", 1);
 			if (command)
-			{
-				free(command);
+			{	free(command);
 				command = NULL;
 			}
-
 			continue;
 		}
 
-
 		print_prompt();
-
 
 		if (getline(&command, &n, stdin) == -1)
 		{
@@ -79,12 +60,9 @@ void start_shell(const char **argv, runtime_t *runtime)
 		command_options(command, argv, runtime);
 
 		if (command)
-		{
-			free(command);
+		{	free(command);
 			command = NULL;
 		}
 	}
-
 	free_resources(command, runtime);
-
 }
