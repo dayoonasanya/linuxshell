@@ -17,7 +17,7 @@ int main(int ac, char **av)
 	runtime->last_proc_exit_status = 0;
 
 	(void) ac;
-	setenv("Ctrl_C", "not_set", 0);
+	/**setenv("Ctrl_C", "not_set", 0);*/
 	start_shell((const char **)av, runtime);
 
 	return (0);

@@ -35,6 +35,7 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strdup(const char *s);
 char *_getenv(const char *name);
+char *_itoa(int num, char *str, int base);
 
 /*libc made functions2*/
 char *_strcat(char *dest, const char *src);

@@ -8,7 +8,7 @@ void signal_interaption(int signo)
 {
 	if (signo == SIGINT)
 	{
-		setenv("Ctrl_C", "set", 1);
+		/**setenv("Ctrl_C", "set", 1);**/
 	}
 }
 
@@ -32,14 +32,14 @@ void start_shell(const char **argv, runtime_t *runtime)
 
 	while (1)
 	{
-		if (_strcmp("set", _getenv("Ctrl_C")) == 0)
+	/**	if (_strcmp("set", _getenv("Ctrl_C")) == 0)
 		{	setenv("Ctrl_C", "not_set", 1);
 			if (command)
 			{	free(command);
 				command = NULL;
 			}
 			continue;
-		}
+		} **/
 
 		print_prompt();
 

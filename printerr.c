@@ -15,13 +15,13 @@ void print_command_error(char *command, const  char **argv, runtime_t *runtime)
 	if (*command == '/' || (*command == '.' && command[1] == '/'))
 	{
 
-		snprintf(msg, sizeof(msg), "%s: %d: %s", *argv, runtime->error_number,
+		_snprintf(msg, sizeof(msg), "%s: %d: %s", *argv, runtime->error_number,
 				command);
 		perror(msg);
 	}
 	else
 	{
-		snprintf(msg, sizeof(msg), "%s: %d: %s: not found", *argv,
+		_snprintf(msg, sizeof(msg), "%s: %d: %s: not found", *argv,
 				runtime->error_number, command);
 		puts(msg);
 	}
