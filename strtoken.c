@@ -37,20 +37,17 @@ char *_strtok(char *line, char *delim)
 
 	if (line != NULL)
 		string = line;
-	for (; *string != '\0'; string++)
+	while (_delim(*string, delim))
+	string++;
+
+	if (*string == '\0')
 	{
-		for (j = 0; delim[j] != '\0'; j++)
-		{
-			if (*string == delim[j])
-			break;
-		}
-		if (delim[j] == '\0')
-			break;
+		return  (NULL);
+
 	}
 	copy = string;
-	if (*copy == '\0')
-		return (NULL);
-	for (; *string != '\0'; string++)
+
+	while (*string != '\0')
 	{
 		for (j = 0; delim[j] != '\0'; j++)
 		{
@@ -61,6 +58,8 @@ char *_strtok(char *line, char *delim)
 				return (copy);
 			}
 		}
+		string++;
 	}
+
 	return (copy);
 }
