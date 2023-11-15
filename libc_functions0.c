@@ -60,7 +60,7 @@ size_t _strcspn(const char *s, const char *reject)
 
 /**
  * _strchr - finds the character specified by c
- * @s: string which the character will be searched in
+ * @s: strng which the character will be searched in
  * @c: character being searched in the string.
  * Return: pointer to the first occurence of the character
  */
