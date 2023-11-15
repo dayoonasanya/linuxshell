@@ -64,5 +64,6 @@ void start_shell(const char **argv, runtime_t *runtime)
 			command = NULL;
 		}
 	}
-	free_resources(command, runtime);
+	if (command)
+		free(command);
 }

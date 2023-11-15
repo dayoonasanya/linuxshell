@@ -21,9 +21,9 @@ void print_command_error(char *command, const  char **argv, runtime_t *runtime)
 	}
 	else
 	{
-		_snprintf(msg, sizeof(msg), "%s: %d: %s: not found", *argv,
+		_snprintf(msg, sizeof(msg), "%s: %d: %s: not found\n", *argv,
 				runtime->error_number, command);
-		puts(msg);
+		write(2, msg, _strlen(msg));
 	}
 
 

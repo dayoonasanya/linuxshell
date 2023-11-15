@@ -68,6 +68,13 @@ char *_getenv(const char *name)
 	{
 		if (_strncmp(environ[i], name, name_length) == 0)
 		{
+			if (environ[i][_strcspn(environ[i], "=") + 1] == '\0' ||
+					environ[i][_strcspn(environ[i], "=") + 1] == '=')
+			{
+				return NULL;
+			}
+
+
 			return ((char *)&(environ[i][_strcspn(environ[i], "=") + 1]));
 		}
 

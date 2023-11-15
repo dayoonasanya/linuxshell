@@ -17,7 +17,7 @@ void command_options(char *command, const char **argv, runtime_t *runtime)
 
 	if (!builtin)
 	{
-		if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+		if (command[0] == '/' || (command[0] == '.' && command[1] == '/') || (command[0] == '.'  && command[1] == '.'))
 		{
 			if (_strchr(command, ' ') == NULL)
 			{

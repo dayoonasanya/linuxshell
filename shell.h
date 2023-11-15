@@ -70,7 +70,7 @@ void print_command_error(char *command, const  char **argv, runtime_t *runtime);
 int  builtin_command(char *command, const char **argv, runtime_t *runtime);
 int contains_chars(const char *s);
 void print_env(void);
-void free_resources(char *command, runtime_t *runtime);
+void free_resources(runtime_t *runtime);
 /** handler functions */
 int handle_string(va_list list, size_t *size, char *str);
 int handle_char(va_list list, size_t *size, char *str);

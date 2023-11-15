@@ -10,6 +10,8 @@
 
 int main(int ac, char **av)
 {
+	int status = 0;
+
 	runtime_t *runtime = malloc(sizeof(runtime_t));
 
 	runtime->error_number = 1;
@@ -19,6 +21,13 @@ int main(int ac, char **av)
 	(void) ac;
 	/**setenv("Ctrl_C", "not_set", 0);*/
 	start_shell((const char **)av, runtime);
+	
+	if (runtime->error_number > 1)
+	{
+		status = 127;
+	}
 
-	return (0);
+	free_resources(runtime);
+
+	return (status);
 }
