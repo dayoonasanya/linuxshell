@@ -207,7 +207,7 @@ int _setenv(runtime_info_t *, char *, char *);
 /* toem_history.c */
 char *get_history_file(runtime_info_t *info);
 int write_history(runtime_info_t *info);
-int read_history(ruuntime_info_t *info);
+int read_history(runtime_info_t *info);
 int build_history_list(runtime_info_t *info, char *buf, int linecount);
 int renumber_history(runtime_info_t *info);
 
