@@ -1,33 +1,44 @@
-#include "shell.h"
+#include "shells.h"
 
 /**
- * main - run the code
- * @ac: number of cmdline arguments
- * @av: pointer to cmdline arguments strings
- * Description: runs code and all associated functions
- * Return: 0;
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
+ *
+ * Return: 0 on success, 1 on error
  */
-
 int main(int ac, char **av)
 {
-	int status = 0;
+	runtime_info_t info[] = { INFO_INIT };
+	int fl = 2;
 
-	runtime_t *runtime = malloc(sizeof(runtime_t));
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fl)
+		: "r" (fl));
 
-	runtime->error_number = 1;
-	runtime->error_msg = NULL;
-	runtime->last_proc_exit_status = 0;
-
-	(void) ac;
-	/**setenv("Ctrl_C", "not_set", 0);*/
-	start_shell((const char **)av, runtime);
-	
-	if (runtime->error_number > 1)
+	if (ac == 2)
 	{
-		status = 127;
+		fl = open(av[1], O_RDONLY);
+		if (fl == -1)
+		{
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
+		}
+		info->readfl = fl;
 	}
-
-	free_resources(runtime);
-
-	return (status);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+	return (EXIT_SUCCESS);
 }

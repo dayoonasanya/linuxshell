@@ -1,69 +1,160 @@
-#include "shell.h"
+#include "shells.h"
 
 /**
- * signal_interaption - checks for SIGINT signal
- * @signo: signal number
+ * hsh - main shell loop
+ * @info: the parameter & return info struct
+ * @av: the argument vector from main()
+ *
+ * Return: 0 on success, 1 on error, or error code
  */
-void signal_interaption(int signo)
+int hsh(runtime_info_t *info, char **av)
 {
-	if (signo == SIGINT)
+	ssize_t r = 0;
+	int builtin_ret = 0;
+
+	while (r != -1 && builtin_ret != -2)
 	{
-		/**setenv("Ctrl_C", "set", 1);**/
+		clear_info(info);
+		if (cuz_interactive(info))
+			_puts("$ ");
+		_eputchar(BUF_FLUSH);
+		r = get_input(info);
+		if (r != -1)
+		{
+			set_info(info, av);
+			builtin_ret = find_builtin(info);
+			if (builtin_ret == -1)
+				find_cmd(info);
+		}
+		else if (cuz_interactive(info))
+			_putchar('\n');
+		free_info(info, 0);
+	}
+	write_history(info);
+	free_info(info, 1);
+	if (!cuz_interactive(info) && info->status)
+		exit(info->status);
+	if (builtin_ret == -2)
+	{
+		if (info->err_num == -1)
+			exit(info->status);
+		exit(info->err_num);
+	}
+	return (builtin_ret);
+}
+
+/**
+ * find_builtin - finding a builtin command
+ * @info: the parameter & return info struct
+ *
+ * Return: -1 if builtin not found,
+ *			0 if builtin executed successfully,
+ *			1 if builtin found but not successful,
+ *			-2 if builtin signals exit()
+ */
+int find_builtin(runtime_info_t *info)
+{
+	int i, built_in_ret = -1;
+	builtin_table builtintbl[] = {
+		{"exit", cuz_myexit},
+		{"env", _myenv},
+		{"help", cuz_myhelp},
+		{"history", cuz_myhistory},
+		{"setenv", _mysetenv},
+		{"unsetenv", _myunsetenv},
+		{"cd", cuz_mycd},
+		{"alias", _myalias},
+		{NULL, NULL}
+	};
+
+	for (i = 0; builtintbl[i].type; i++)
+		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
+		{
+			info->line_count++;
+			built_in_ret = builtintbl[i].func(info);
+			break;
+		}
+	return (built_in_ret);
+}
+
+/**
+ * find_cmd - finding a command in PATH
+ * @info: the parameter & return info struct
+ *
+ * Return: void
+ */
+void find_cmd(runtime_info_t *info)
+{
+	char *path = NULL;
+	int i, k;
+
+	info->path = info->argv[0];
+	if (info->linecount_flag == 1)
+	{
+		info->line_count++;
+		info->linecount_flag = 0;
+	}
+	for (i = 0, k = 0; info->arg[i]; i++)
+		if (!cuz_is_delim(info->arg[i], " \t\n"))
+			k++;
+	if (!k)
+		return;
+
+	path = cuz_find_path(info, _getenv(info, "PATH="), info->argv[0]);
+	if (path)
+	{
+		info->path = path;
+		fork_cmd(info);
+	}
+	else
+	{
+		if ((cuz_interactive(info) || _getenv(info, "PATH=")
+			|| info->argv[0][0] == '/') && cuz_is_cmd(info, info->argv[0]))
+			fork_cmd(info);
+		else if (*(info->arg) != '\n')
+		{
+			info->status = 127;
+			print_error(info, "not found\n");
+		}
 	}
 }
 
 /**
- * start_shell - starts the shell
- * @argv: pointer to command line args strings
- * @runtime: pointer to  the struct for shell exec info
- * Description: prints the prompt.
- * Gets the user input from keyboard
- * Starts the required functions
- * loops
+ * fork_cmd - forks a an exec thread to run cmd
+ * @info: the parameter & return info struct
+ *
+ * Return: void
  */
-
-
-void start_shell(const char **argv, runtime_t *runtime)
+void fork_cmd(runtime_info_t *info)
 {
-	char *command = NULL;
-	size_t n = 0;
+	pid_t child_pid;
 
-	signal(SIGINT, signal_interaption);
-
-	while (1)
+	child_pid = fork();
+	if (child_pid == -1)
 	{
-	/**	if (_strcmp("set", _getenv("Ctrl_C")) == 0)
-		{	setenv("Ctrl_C", "not_set", 1);
-			if (command)
-			{	free(command);
-				command = NULL;
-			}
-			continue;
-		} **/
-
-		print_prompt();
-
-		if (getline(&command, &n, stdin) == -1)
+		/* TODO: PUT ERROR FUNCTION */
+		perror("Error:");
+		return;
+	}
+	if (child_pid == 0)
+	{
+		if (execve(info->path, info->argv, get_environ(info)) == -1)
 		{
-			if (isatty(STDIN_FILENO))
-				_putchar('\n');
-			break;
+			free_info(info, 1);
+			if (errno == EACCES)
+				exit(126);
+			exit(1);
 		}
-
-		command[_strcspn(command, "\n")] = '\0';
-
-		trim_start(&command);
-
-		if (*command == '\0')
-			continue;
-
-		command_options(command, argv, runtime);
-
-		if (command)
-		{	free(command);
-			command = NULL;
+		/* TODO: PUT ERROR FUNC */
+	}
+	else
+	{
+		wait(&(info->status));
+		if (WIFEXITED(info->status))
+		{
+			info->status = WEXITSTATUS(info->status);
+			if (info->status == 126)
+				print_error(info, "Permission denied\n");
 		}
 	}
-	if (command)
-		free(command);
 }
