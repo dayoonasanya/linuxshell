@@ -10,7 +10,7 @@ To get started with the Simple Shell project, follow these steps:
 
 1. Clone this repository to your local machine using the following command:
 
-   git clone https://[your token]@github.com/IbnuJabir/simple_shell.git
+   git clone https://[your token]@github.com/dayoonasanya/simple_shell.git
 
 2. Compile the source code by running the make command:
 
@@ -50,4 +50,4 @@ For more information on how to use the Simple Shell, refer to the man page or do
 The Simple Shell project is developed and maintained by<strong>[@adayoonasanya</strong> and <strong>@chifundo365</strong> in ALX SE program team project. Contributions and feedback are welcome.
 
 ## Contact
-For any inquiries or suggestions regarding the Simple Shell project, please contact at <strong>[@IbnuJabir](https://github.com/dayoonasanya)</strong>
+For any inquiries or suggestions regarding the Simple Shell project, please contact at <strong>https://github.com/dayoonasanya)</strong>
