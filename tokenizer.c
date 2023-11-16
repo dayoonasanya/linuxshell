@@ -1,60 +1,94 @@
-#include "shell.h"
-#include <string.h>
-#include <stdarg.h>
-
-char **tokenize(char *line);
-int delim_count(char *stri, char delim);
+#include "shells.h"
 
 /**
- * delim_count - delim count.
- * @str: string.
- * @delim: delimiter.
- *
- * Return: words.
+ * **strtow - splits a str into words. Repeat delimiters are ignored
+ * @str: the input string
+ * @d: the delimeter string
+ * Return: a pointer to an array of strings, or NULL on failure
  */
 
-int delim_count(char *str, char delim)
+char **strtow(char *str, char *d)
 {
-	int w = 0, n = 0;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-	if (str)
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+	if (!d)
+		d = " ";
+	for (i = 0; str[i] != '\0'; i++)
+		if (!cuz_is_delim(str[i], d) && (cuz_is_delim(str[i + 1], d) || !str[i + 1]))
+			numwords++;
+
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
 	{
-		for (; str[n] != '\0'; n++)
+		while (cuz_is_delim(str[i], d))
+			i++;
+		k = 0;
+		while (!cuz_is_delim(str[i + k], d) && str[i + k])
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
 		{
-			if (str[n] == delim)
-			w++;
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
 		}
-		w++;
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
 	}
-	return (w);
+	s[j] = NULL;
+	return (s);
 }
 
 /**
- * tokenize - separate sting.
- * @line: line.
- *
- * Return: return tokens.
+ * **strtow2 - splits a string into words
+ * @str: the input string
+ * @d: the delimeter
+ * Return: a pointer to an array of strings, or NULL on failure
  */
-char **tokenize(char *line)
+char **strtow2(char *str, char d)
 {
-	int bufferz = delim_count(line, ' '), n = 0;
-	char *t2 = NULL;
-	char **t1 = NULL;
+	int i, j, k, m, numwords = 0;
+	char **s;
 
-	t1 = malloc(sizeof(char *) * (bufferz + 1));
-	if (!t1)
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+	for (i = 0; str[i] != '\0'; i++)
+		if ((str[i] != d && str[i + 1] == d) ||
+		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
+			numwords++;
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
 	{
-		free(t1);
-		perror("Failed to allocate");
-		exit(EXIT_FAILURE);
+		while (str[i] == d && str[i] != d)
+			i++;
+		k = 0;
+		while (str[i + k] != d && str[i + k] && str[i + k] != d)
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
 	}
-	t2 = _strtok(line, SEPARATE_STRING);
-	while (t2 != NULL)
-	{
-		t1[n] = t2;
-		n++;
-		t2 = _strtok(NULL, SEPARATE_STRING);
-	}
-	t1[n] = NULL;
-	return (t1);
+	s[j] = NULL;
+	return (s);
 }
