@@ -49,7 +49,7 @@ int _eputchar(char c)
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.
  */
-int _putfl(char c, int fd)
+int _putfl(char c, int fl)
 {
 	static int i;
 	static char buf[WRITE_BUF_SIZE];
